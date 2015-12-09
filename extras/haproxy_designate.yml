@@ -1,0 +1,10 @@
+haproxy_service_configs:
+  - service:
+      haproxy_service_name: designate_api
+      haproxy_backend_nodes: "{{ groups['designate_api'] | default([]) }}"
+      haproxy_port: 9191
+      haproxy_balance_type: http
+      haproxy_backend_options:
+        - "forwardfor"
+        - "httpchk /versions"
+        - "httplog"

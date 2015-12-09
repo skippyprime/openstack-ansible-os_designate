@@ -1,0 +1,4 @@
+## Designate service
+designate_git_repo: https://git.openstack.org/openstack/designate
+designate_git_install_branch: 6622e9493668f5bf3178bfc0a7c6fe53d1e2d89e # HEAD of "stable/liberty" as of 07.03.2016
+designate_git_dest: "/opt/designate_{{ designate_git_install_branch | replace('/', '_') }}"
