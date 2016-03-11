@@ -94,7 +94,7 @@ designate_service_description: "DNS as a service"
 designate_service_project_domain_id: default
 designate_service_user_domain_id: default
 designate_service_user_name: designate
-designate_keystone_auth_plugin: password
+designate_keystone_auth_type: password
 designate_service_tenant_name: service
 designate_service_project_name: service
 designate_service_publicuri: "{{ designate_service_proto }}://{{ external_lb_vip_address }}:{{ designate_service_port }}"
