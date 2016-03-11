@@ -35,6 +35,25 @@
       dest: "/etc/designate/policy.json"
       config_overrides: "{{ designate_policy_overrides }}"
       config_type: "json"
+    - src: "rootwrap.conf.j2"
+      dest: "/etc/designate/rootwrap.conf"
+      owner: "root"
+      group: "root"
+      config_overrides: "{{ designate_rootwrap_conf_overrides }}"
+      config_type: "ini"
+  notify: Restart designate services
+  tags:
+    - designate-config
+    - designate-post-install
+
+- name: Copy designate rootwrap filter config
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "root"
+    group: "root"
+  with_items:
+    - { src: "rootwrap.d/bind9.filters", dest: "/etc/designate/rootwrap.d/bind9.filters" }
   notify: Restart designate services
   tags:
     - designate-config

@@ -154,4 +154,5 @@ designate_service_names:
 designate_policy_overrides: {}
 designate_designate_conf_overrides: {}
 designate_api_paste_ini_overrides: {}
+designate_rootwrap_conf_overrides: {}
 
