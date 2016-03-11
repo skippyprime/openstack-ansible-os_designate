@@ -42,6 +42,7 @@
     mode: "{{ item.mode|default('0755') }}"
   with_items:
     - { path: "/etc/designate" }
+    - { path: "/etc/designate/rootwrap.d" }
     - { path: "{{ designate_system_user_home }}" }
     - { path: "{{ designate_system_user_home }}/.ssh", mode: "0700" }
     - { path: "/var/cache/designate", mode: "0700" }

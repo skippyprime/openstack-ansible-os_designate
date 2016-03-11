@@ -39,11 +39,44 @@
   tags:
     - designate-db-setup
 
+- name: Create pool_manager DB for service
+  mysql_db:
+    login_user: "{{ galera_root_user }}"
+    login_password: "{{ galera_root_password }}"
+    login_host: "{{ designate_galera_address }}"
+    name: "{{ designate_pool_manager_galera_database }}"
+    state: "present"
+  tags:
+    - designate-db-setup
+
+- name: Grant access to the pool_manager DB for the service
+  mysql_user:
+    login_user: "{{ galera_root_user }}"
+    login_password: "{{ galera_root_password }}"
+    login_host: "{{ designate_galera_address }}"
+    name: "{{ designate_pool_manager_galera_user }}"
+    password: "{{ designate_pool_manager_container_mysql_password }}"
+    host: "{{ item }}"
+    state: "present"
+    priv: "{{ designate_pool_manager_galera_database }}.*:ALL"
+  with_items:
+    - "localhost"
+    - "%"
+  tags:
+    - designate-db-setup
+
 - name: Perform a Designate DB sync
-  command: designate-manage database sync
-  sudo: yes
-  sudo_user: "{{ designate_system_user_name }}"
+  command: "{{ designate_bin }}/designate-manage database sync"
+  become: yes
+  become_user: "{{ designate_system_user_name }}"
   tags:
     - designate-db-sync
     - designate-setup
 
+- name: Perform a Designate Pool Manager Cache sync
+  command: "{{ designate_bin }}/designate-manage pool-manager-cache sync"
+  become: yes
+  become_user: "{{ designate_system_user_name }}"
+  tags:
+    - designate-db-sync
+    - designate-setup

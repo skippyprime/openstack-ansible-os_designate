@@ -47,7 +47,7 @@
   copy:
     dest: "/opt/developer-pip-constraints.txt"
     content: |
-      {% for item in glance_developer_constraints %}
+      {% for item in designate_developer_constraints %}
       {{ item }}
       {% endfor %}
   when:

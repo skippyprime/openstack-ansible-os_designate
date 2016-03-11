@@ -13,35 +13,82 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: designate_service_add.yml
-  vars:
-    service_user_name: "{{ designate_service_user_name }}"
-    service_tenant_name: "{{ designate_service_tenant_name }}"
+- name: Ensure designate service
+  keystone:
+    command: "ensure_service"
+    token: "{{ keystone_auth_admin_token }}"
+    endpoint: "{{ keystone_service_adminurl }}"
     service_name: "{{ designate_service_name }}"
     service_type: "{{ designate_service_type }}"
-    service_region: "{{designate_service_region }}"
-    service_description: "{{ designate_service_description }}"
-    service_password: "{{ designate_service_password }}"
-    service_internalurl: "{{ designate_service_internalurl }}"
-    service_publicurl: "{{ designate_service_publicurl }}"
-    service_adminurl: "{{ designate_service_adminurl }}"
-    role_name: "{{ designate_role_name }}"
+    description: "{{ designate_service_description }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
+  register: add_service
+  until: add_service|success
+  retries: 5
+  delay: 2
   tags:
-    - designate-add-service
+    - designate-setup
+    - designate-service-add
 
-- include: designate_service_add.yml
-  vars:
-    service_user_name: "{{ designate_service_user_name }}"
-    service_tenant_name: "{{ designate_service_project_name }}"
-    service_name: "{{ designate_service_v2_name }}"
-    service_type: "{{ designate_service_v2_type }}"
-    service_region: "{{ designate_service_region }}"
-    service_description: "{{ designate_service_v2_description }}"
-    service_password: "{{ designate_service_password }}"
-    service_publicurl: "{{ designate_service_v2_publicurl }}"
-    service_internalurl: "{{ designate_service_v2_internalurl }}"
-    service_adminurl: "{{ designate_service_v2_adminurl }}"
-    role_name: "{{ designate_role_name }}"
+- name: Ensure designate user
+  keystone:
+    command: "ensure_user"
+    token: "{{ keystone_auth_admin_token }}"
+    endpoint: "{{ keystone_service_adminurl }}"
+    user_name: "{{ designate_service_user_name }}"
+    tenant_name: "{{ designate_service_project_name }}"
+    password: "{{ designate_service_password }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
+  register: add_service
+  when: not designate_service_in_ldap | bool
+  until: add_service|success
+  retries: 5
+  delay: 10
   tags:
-    - designate-add-service
+    - designate-setup
+    - designate-service-add
 
+- name: Ensure designate user to admin role
+  keystone:
+    command: "ensure_user_role"
+    token: "{{ keystone_auth_admin_token }}"
+    endpoint: "{{ keystone_service_adminurl }}"
+    user_name: "{{ designate_service_user_name }}"
+    tenant_name: "{{ designate_service_project_name }}"
+    role_name: "{{ designate_role_name }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
+  register: add_service
+  when: not designate_service_in_ldap | bool
+  until: add_service|success
+  retries: 5
+  delay: 10
+  tags:
+    - designate-api-setup
+    - designate-service-add
+    - designate-setup
+
+
+# Create an endpoint
+- name: Ensure designate endpoint
+  keystone:
+    command: "ensure_endpoint"
+    token: "{{ keystone_auth_admin_token }}"
+    endpoint: "{{ keystone_service_adminurl }}"
+    region_name: "{{ designate_service_region }}"
+    service_name: "{{ designate_service_name }}"
+    service_type: "{{ designate_service_type }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
+    endpoint_list:
+      - url: "{{ designate_service_publicuri }}"
+        interface: "public"
+      - url: "{{ designate_service_adminuri }}"
+        interface: "admin"
+      - url: "{{ designate_service_internaluri }}"
+        interface: "internal"
+  register: add_service
+  until: add_service|success
+  retries: 5
+  delay: 10
+  tags:
+    - designate-setup
+    - designate-service-add

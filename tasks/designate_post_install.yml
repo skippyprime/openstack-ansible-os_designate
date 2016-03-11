@@ -28,7 +28,7 @@
       config_overrides: "{{ designate_designate_conf_overrides }}"
       config_type: "ini"
     - src: "api-paste.ini.j2"
-      dest: "/etc/designate/api_paste.ini"
+      dest: "/etc/designate/api-paste.ini"
       config_overrides: "{{ designate_api_paste_ini_overrides }}"
       config_type: "ini"
     - src: "policy.json.j2"
