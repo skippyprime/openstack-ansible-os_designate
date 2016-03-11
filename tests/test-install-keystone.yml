@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Prepare the inventory
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - include: test-include-inventory.yml
+
 - name: Playbook for deploying keystone
   hosts: keystone_all
   user: root
@@ -61,23 +68,5 @@
       when: inventory_hostname == groups['keystone_all'][0]
   roles:
     - role: os_keystone
-  vars:
-    external_lb_vip_address: 10.100.100.102
-    internal_lb_vip_address: 10.100.100.102
-    keystone_galera_address: 10.100.100.101
-    keystone_galera_database: keystone
-    keystone_venv_tag: "testing"
-    keystone_developer_mode: true
-    keystone_git_install_branch: a55128044f763f5cfe2fdc57c738eaca97636448 # HEAD of "master" as of 17.01.2016
-    keystone_requirements_git_install_branch: 332278d456e06870150835564342570ec9d5f5a0 # HEAD of "master" as of 17.01.2016
-    keystone_auth_admin_token: "SuperSecreteTestToken"
-    keystone_auth_admin_password: "SuperSecretePassword"
-    keystone_service_password: "secrete"
-    keystone_rabbitmq_password: "secrete"
-    keystone_container_mysql_password: "SuperSecrete"
-    keystone_rabbitmq_port: 5671
-    keystone_rabbitmq_userid: keystone
-    keystone_rabbitmq_vhost: /keystone
-    keystone_rabbitmq_servers: 10.100.100.101
-    keystone_rabbitmq_use_ssl: true
-    galera_client_drop_config_file: false
+  vars_files:
+    - test-vars.yml

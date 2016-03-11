@@ -17,8 +17,8 @@
   config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ designate_system_user_name }}"
-    group: "{{ designate_system_group_name }}"
+    owner: "{{ item.owner|default(designate_system_user_name) }}"
+    group: "{{ item.group|default(designate_system_group_name) }}"
     mode: "0644"
     config_overrides: "{{ item.config_overrides }}"
     config_type: "{{ item.config_type }}"
@@ -48,12 +48,10 @@
 
 - name: Copy designate rootwrap filter config
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "rootwrap.d/bind9.filters"
+    dest: "/etc/designate/rootwrap.d/bind9.filters"
     owner: "root"
     group: "root"
-  with_items:
-    - { src: "rootwrap.d/bind9.filters", dest: "/etc/designate/rootwrap.d/bind9.filters" }
   notify: Restart designate services
   tags:
     - designate-config

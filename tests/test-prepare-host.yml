@@ -42,6 +42,7 @@
           name: "trusty.tgz"
           sha256sum: "56c6a6e132ea7d10be2f3e8104f47136ccf408b30e362133f0dc4a0a9adb4d0c"
           chroot_path: trusty/rootfs-amd64
+    - role: "openstack_openrc"
   post_tasks:
     - name: Install pip packages
       pip:
@@ -53,4 +54,8 @@
       retries: 5
       delay: 2
       with_items:
+        - lxc-python2
         - python-openstackclient
+        - python-designateclient
+  vars_files:
+    - test-vars.yml

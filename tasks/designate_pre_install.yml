@@ -43,6 +43,8 @@
   with_items:
     - { path: "/etc/designate" }
     - { path: "/etc/designate/rootwrap.d" }
+    - { path: "/etc/designate/rootwrap.d", owner: "root", group: "root" }
+    - { path: "/etc/sudoers.d", mode: "0750", owner: "root", group: "root" }
     - { path: "{{ designate_system_user_home }}" }
     - { path: "{{ designate_system_user_home }}/.ssh", mode: "0700" }
     - { path: "/var/cache/designate", mode: "0700" }
@@ -89,6 +91,17 @@
     - designate-dirs
     - designate-logs
 
+- name: Drop sudoers file
+  template:
+    src: "sudoers.j2"
+    dest: "/etc/sudoers.d/{{ designate_system_user_name }}_sudoers"
+    mode: "0440"
+    owner: "root"
+    group: "root"
+  tags:
+    - sudoers
+    - designate-sudoers
+
 - include: designate_messaging_setup.yml
-  when: >
-    inventory_hostname == groups['designate_all'][0]
+  when:
+    - inventory_hostname == groups['designate_all'][0]

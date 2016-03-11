@@ -1,0 +1,46 @@
+---
+# Copyright 2016, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Inventory is being pre-loaded using a post tasks instead of through a dynamic
+#  inventory system. While this is not a usual method for deployment it's being
+#  done for functional testing.
+
+- name: Create container hosts
+  add_host:
+    groups: "{{ item.groups }}"
+    hostname: "{{ item.name }}"
+    inventory_hostname: "{{ item.name }}"
+    ansible_ssh_host: "{{ item.address }}"
+    ansible_become: true
+    properties:
+      service_name: "{{ item.service }}"
+    container_networks:
+      management_address:
+        address: "{{ item.address }}"
+        bridge: "lxcbr0"
+        interface: "eth1"
+        netmask: "255.255.252.0"
+        type: "veth"
+    physical_host: localhost
+    container_name: "{{ item.name }}"
+  with_items:
+    - name: "infra1"
+      service: "infra1"
+      address: "10.100.100.101"
+      groups: "all,all_containers,rabbitmq_all,galera_all,service_all"
+    - name: "openstack1"
+      service: "openstack1"
+      address: "10.100.100.102"
+      groups: "all,all_containers,keystone_all,designate_all,designate_api,designate_central,designate_pool_manager,designate_mdns,designate_sink"
