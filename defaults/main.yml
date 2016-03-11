@@ -124,10 +124,7 @@ designate_service_in_ldap: false
 
 # Common apt packages
 designate_apt_packages:
-  - rpcbind
   - bind9
-  - pdns-server 
-  - pdns-backend-mysql
 
 # designate packages that must be installed before anything else
 designate_requires_pip_packages:
