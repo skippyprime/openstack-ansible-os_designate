@@ -63,7 +63,7 @@ designate_system_user_home: "/var/lib/{{ designate_system_user_name }}"
 ## DB info
 designate_galera_user: designate
 designate_galera_password: "{{ designate_container_mysql_password }}"
-designate_galera_database: designate 
+designate_galera_database: designate
 
 ## RabbitMQ info
 designate_rabbitmq_userid: designate
@@ -90,10 +90,10 @@ designate_api_program_name: designate-api
 designate_service_region: RegionOne
 designate_service_endpoint_type: internalURL
 designate_service_name: designate
-designate_service_port: 9001 
+designate_service_port: 9001
 designate_service_proto: http
-designate_service_type: dns 
-designate_service_description: "DNS as a service"
+designate_service_type: dns
+designate_service_description: "Designate DNS as a Service"
 designate_service_project_domain_id: default
 designate_service_user_domain_id: default
 designate_service_user_name: designate
