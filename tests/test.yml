@@ -195,7 +195,8 @@
     keystone_galera_database: keystone
     keystone_venv_tag: "testing"
     keystone_developer_mode: true
-    keystone_git_install_branch: a55128044f763f5cfe2fdc57c738eaca97636448
+    keystone_git_install_branch: a55128044f763f5cfe2fdc57c738eaca97636448 # HEAD of "master" as of 17.01.2016
+    keystone_requirements_git_install_branch: 332278d456e06870150835564342570ec9d5f5a0 # HEAD of "master" as of 17.01.2016
     keystone_auth_admin_token: "SuperSecreteTestToken"
     keystone_auth_admin_password: "SuperSecretePassword"
     keystone_service_password: "secrete"
@@ -290,7 +291,8 @@
     keystone_service_adminurl: "{{ keystone_service_adminuri }}/v3"
     designate_venv_tag: "testing"
     designate_developer_mode: true
-    designate_git_install_branch: 7d5c3710ce2739a8ac356208d4e104f2ce3ec9ab
+    designate_git_install_branch: 4df88d7b28a05cb3556573ce4f1c7c66abf944bb # HEAD of "master" as of 17.01.2016
+    designate_requirements_git_install_branch: 332278d456e06870150835564342570ec9d5f5a0 # HEAD of "master" as of 17.01.2016
     designate_service_password: "secrete"
     designate_profiler_hmac_key: "secrete"
     openrc_os_password: "{{ keystone_auth_admin_password }}"

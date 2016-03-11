@@ -37,17 +37,39 @@
     - designate-install
     - designate-apt-packages
 
-- name: Install pip packages
-  pip:
-    name: "{{ item }}"
-    state: present
-    extra_args: "{{ pip_install_options|default('') }}"
-  register: install_packages
-  until: install_packages|success
-  retries: 5
-  delay: 2
-  with_items:
-    - "{{ designate_pip_packages }}"
+- name: Create developer mode constraint file
+  copy:
+    dest: "/opt/developer-pip-constraints.txt"
+    content: |
+      {% for item in glance_developer_constraints %}
+      {{ item }}
+      {% endfor %}
+  when:
+    - designate_developer_mode | bool
+  tags:
+    - designate-install
+    - designate-pip-packages
+
+- name: Clone requirements git repository
+  git:
+    repo: "{{ designate_requirements_git_repo }}"
+    dest: "/opt/requirements"
+    clone: yes
+    update: yes
+    version: "{{ designate_requirements_git_install_branch }}"
+  when:
+    - designate_developer_mode | bool
+  tags:
+    - designate-install
+    - designate-pip-packages
+
+- name: Add constraints to pip_install_options fact for developer mode
+  set_fact:
+    pip_install_options: "{{ pip_install_options|default('') }} --constraint /opt/developer-pip-constraints.txt --constraint /opt/requirements/upper-constraints.txt"
+  when:
+    - designate_developer_mode | bool
+    - "'/opt/developer-pip-constraints.txt' not in pip_install_options|default('')"
+    - "'/opt/requirements/upper-constraints.txt' not in pip_install_options|default('')"
   tags:
     - designate-install
     - designate-pip-packages
@@ -71,7 +93,9 @@
   stat:
     path: "/var/cache/{{ designate_venv_download_url | basename }}"
     get_md5: False
-  when: designate_venv_enabled | bool
+  when:
+    - not designate_developer_mode | bool
+    - designate_venv_enabled | bool
   register: local_venv_stat
   tags:
     - designate-install
@@ -81,12 +105,19 @@
   uri:
     url: "{{ designate_venv_download_url | replace('tgz', 'checksum') }}"
     return_content: True
-  when: designate_venv_enabled | bool
+  when:
+    - not designate_developer_mode | bool
+    - designate_venv_enabled | bool
   register: remote_venv_checksum
   tags:
     - designate-install
     - designate-pip-packages
 
+# TODO: When project moves to ansible 2 we can pass this a sha256sum which will:
+#       a) allow us to remove force: yes
+#       b) allow the module to calculate the checksum of dest file which would
+#          result in file being downloaded only if provided and dest sha256sum
+#          checksums differ
 - name: Attempt venv download
   get_url:
     url: "{{ designate_venv_download_url }}"
@@ -95,6 +126,7 @@
   ignore_errors: true
   register: get_venv
   when:
+    - not designate_developer_mode | bool
     - designate_venv_enabled | bool
     - (local_venv_stat.stat.exists == False or
         {{ local_venv_stat.stat.checksum is defined and local_venv_stat.stat.checksum != remote_venv_checksum.content | trim }})
@@ -126,6 +158,7 @@
     path: "{{ designate_venv_bin | dirname }}"
     state: directory
   when:
+    - not designate_developer_mode | bool
     - designate_venv_enabled | bool
     - designate_get_venv | changed
   tags:
@@ -138,6 +171,7 @@
     dest: "{{ designate_venv_bin | dirname }}"
     copy: "no"
   when:
+    - not designate_developer_mode | bool
     - designate_venv_enabled | bool
     - designate_get_venv | changed
   notify:
@@ -150,6 +184,7 @@
   command: >
     virtualenv-tools --update-path=auto {{ designate_venv_bin | dirname }}
   when:
+    - not designate_developer_mode | bool
     - designate_venv_enabled | bool
     - designate_get_venv | success
   tags:
@@ -167,11 +202,10 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items:
-    - "{{ designate_pip_packages }}"
+  with_items: designate_pip_packages
   when:
     - designate_venv_enabled | bool
-    - designate_get_venv | failed
+    - designate_get_venv | failed or designate_developer_mode | bool
   notify:
     - Restart designate services
   tags:
@@ -190,7 +224,9 @@
   delay: 2
   with_items:
     - "{{ designate_pip_packages }}"
-  when: not designate_venv_enabled | bool
+  when:
+    - not designate_venv_enabled | bool
+    - not designate_developer_mode | bool
   notify:
     - Restart designate services
   tags:

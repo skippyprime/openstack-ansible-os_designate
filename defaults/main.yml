@@ -17,6 +17,17 @@
 debug: False
 verbose: True
 
+# These variables are used in 'developer mode' in order to allow the role
+# to build an environment directly from a git source without the presence
+# of an OpenStack-Ansible repo_server.
+designate_git_repo: https://git.openstack.org/openstack/designate
+designate_git_install_branch: master
+designate_requirements_git_repo: https://git.openstack.org/openstack/requirements
+designate_requirements_git_install_branch: master
+designate_developer_mode: false
+designate_developer_constraints:
+  - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
+
 # Name of the virtual env to deploy into
 designate_venv_tag: untagged
 designate_venv_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
