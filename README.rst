@@ -1,0 +1,49 @@
+OpenStack-Ansible Designate
+###########################
+:tags: openstack, designate, cloud, ansible
+:category: \*nix
+
+This Ansible role installs and configures OpenStack Designate.
+
+This role will install the following Upstart services:
+    * designate-api
+    * designate-central
+    * designate-pool-manager
+    * designate-mdns
+    * designate-sink
+    * glance-api
+    * glance-registry
+
+Default Variables
+=================
+
+.. literalinclude:: ../../defaults/main.yml
+   :language: yaml
+   :start-after: under the License.
+
+Required Variables
+==================
+
+.. code-block:: yaml
+
+    designate_galera_address
+    designate_container_mysql_password
+    designate_service_password
+
+Example Playbook
+================
+
+.. code-block:: yaml
+
+    - name: Install Designate Server
+      hosts: designate_all
+      user: root
+      roles:
+        - { role: "os_designate", tags: [ "os-designate" ] }
+      vars:
+        external_lb_vip_address: 172.16.24.1
+        internal_lb_vip_address: 192.168.0.1
+        designate_galera_address: "{{ internal_lb_vip_address }}"
+        designate_container_mysql_password: "SuperSecretePassword1"
+        designate_service_password: "SuperSecretePassword2"
+
