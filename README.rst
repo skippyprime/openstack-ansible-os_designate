@@ -11,8 +11,6 @@ This role will install the following Upstart services:
     * designate-pool-manager
     * designate-mdns
     * designate-sink
-    * glance-api
-    * glance-registry
 
 Default Variables
 =================
@@ -28,7 +26,9 @@ Required Variables
 
     designate_galera_address
     designate_container_mysql_password
+    designate_pool_manager_container_mysql_password
     designate_service_password
+    designate_rabbitmq_password
 
 Example Playbook
 ================
@@ -45,5 +45,7 @@ Example Playbook
         internal_lb_vip_address: 192.168.0.1
         designate_galera_address: "{{ internal_lb_vip_address }}"
         designate_container_mysql_password: "SuperSecretePassword1"
-        designate_service_password: "SuperSecretePassword2"
+        designate_pool_manager_container_mysql_password: "SuperSecretePassword2"
+        designate_service_password: "SuperSecretePassword3"
+        designate_rabbitmq_password: "SuperSecretePassword4"
 

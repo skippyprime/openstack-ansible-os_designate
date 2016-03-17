@@ -44,11 +44,11 @@
           chroot_path: trusty/rootfs-amd64
     - role: "openstack_openrc"
   post_tasks:
+    # In the gate these packages get installed into .tox/functional, which is
+    # not where we need them to be.  If we can figure out how to override this
+    # we can revert to using the pip module instead.
     - name: Install pip packages
-      pip:
-        name: "{{ item }}"
-        state: present
-        extra_args: "{{ pip_install_options|default('') }}"
+      command: /usr/local/bin/pip install {{ item }}
       register: install_packages
       until: install_packages|success
       retries: 5
