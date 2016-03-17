@@ -32,6 +32,8 @@ keystone_galera_address: 10.100.100.101
 keystone_galera_database: keystone
 keystone_container_mysql_password: "SuperSecrete"
 keystone_auth_admin_token: "SuperSecreteTestToken"
+keystone_admin_user_name: admin
+keystone_admin_tenant_name: admin
 keystone_auth_admin_password: "SuperSecretePassword"
 keystone_service_adminuri_insecure: false
 keystone_service_internaluri_insecure: false
