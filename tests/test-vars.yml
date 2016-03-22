@@ -17,6 +17,7 @@ debug: True
 external_lb_vip_address: 10.100.100.102
 internal_lb_vip_address: 10.100.100.102
 galera_client_drop_config_file: false
+galera_root_user: root
 galera_root_password: "secrete"
 rabbitmq_servers: 10.100.100.101
 rabbitmq_use_ssl: False
@@ -30,6 +31,7 @@ keystone_requirements_git_install_branch: 332278d456e06870150835564342570ec9d5f5
 keystone_service_password: "secrete"
 keystone_galera_address: 10.100.100.101
 keystone_galera_database: keystone
+keystone_galera_user: keystone
 keystone_container_mysql_password: "SuperSecrete"
 keystone_auth_admin_token: "SuperSecreteTestToken"
 keystone_admin_user_name: admin
@@ -56,8 +58,12 @@ designate_git_install_branch: 4df88d7b28a05cb3556573ce4f1c7c66abf944bb # HEAD of
 designate_requirements_git_install_branch: 332278d456e06870150835564342570ec9d5f5a0 # HEAD of "master" as of 17.01.2016
 designate_service_password: "secrete"
 designate_galera_address: 10.100.100.101
+designate_galera_database: designate
+designate_galera_user: designate
 designate_container_mysql_password: "SuperSecrete"
 designate_pool_manager_galera_address: 10.100.100.101
+designate_pool_manager_galera_database: designate_pool_manager
+designate_pool_manager_galera_user: designate_pool_manager
 designate_pool_manager_container_mysql_password: "SuperSecrete"
 designate_rabbitmq_password: "secrete"
 designate_rabbitmq_userid: designate

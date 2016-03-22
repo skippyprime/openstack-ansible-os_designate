@@ -24,6 +24,70 @@
   hosts: designate_all
   user: root
   gather_facts: true
+  pre_tasks:
+    - name: Ensure rabbitmq vhost
+      rabbitmq_vhost:
+        name: "{{ designate_rabbitmq_vhost }}"
+        state: "present"
+      delegate_to: "10.100.100.101"
+      when: inventory_hostname == groups['designate_all'][0]
+    - name: Ensure rabbitmq user
+      rabbitmq_user:
+        user: "{{ designate_rabbitmq_userid }}"
+        password: "{{ designate_rabbitmq_password }}"
+        vhost: "{{ designate_rabbitmq_vhost }}"
+        configure_priv: ".*"
+        read_priv: ".*"
+        write_priv: ".*"
+        state: "present"
+      delegate_to: "10.100.100.101"
+      when: inventory_hostname == groups['designate_all'][0]
+    - name: Create DB for service
+      mysql_db:
+        login_user: "{{ galera_root_user }}"
+        login_password: "{{ galera_root_password }}"
+        login_host: "localhost"
+        name: "{{ designate_galera_database }}"
+        state: "present"
+      delegate_to: "10.100.100.101"
+      when: inventory_hostname == groups['designate_all'][0]
+    - name: Grant access to the DB for the service
+      mysql_user:
+        login_user: "{{ galera_root_user }}"
+        login_password: "{{ galera_root_password }}"
+        login_host: "localhost"
+        name: "{{ designate_galera_user }}"
+        password: "{{ designate_container_mysql_password }}"
+        host: "{{ item }}"
+        state: "present"
+        priv: "{{ designate_galera_database }}.*:ALL"
+      with_items:
+        - "localhost"
+        - "%"
+      delegate_to: "10.100.100.101"
+      when: inventory_hostname == groups['designate_all'][0]
+    - name: Create pool_manager DB for service
+      mysql_db:
+        login_user: "{{ galera_root_user }}"
+        login_password: "{{ galera_root_password }}"
+        login_host: "{{ designate_galera_address }}"
+        name: "{{ designate_pool_manager_galera_database }}"
+        state: "present"
+      delegate_to: "10.100.100.101"
+    - name: Grant access to the pool_manager DB for the service
+      mysql_user:
+        login_user: "{{ galera_root_user }}"
+        login_password: "{{ galera_root_password }}"
+        login_host: "{{ designate_galera_address }}"
+        name: "{{ designate_pool_manager_galera_user }}"
+        password: "{{ designate_pool_manager_container_mysql_password }}"
+        host: "{{ item }}"
+        state: "present"
+        priv: "{{ designate_pool_manager_galera_database }}.*:ALL"
+      with_items:
+        - "localhost"
+        - "%"
+      delegate_to: "10.100.100.101"
   roles:
     - role: "{{ rolename | basename }}"
   vars_files:
