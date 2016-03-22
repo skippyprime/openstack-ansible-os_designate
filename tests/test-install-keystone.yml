@@ -13,13 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Prepare the inventory
-  hosts: localhost
-  connection: local
-  become: yes
-  tasks:
-    - include: test-include-inventory.yml
-
 - name: Playbook for deploying keystone
   hosts: keystone_all
   user: root
