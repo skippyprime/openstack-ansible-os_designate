@@ -42,7 +42,6 @@
     mode: "{{ item.mode|default('0755') }}"
   with_items:
     - { path: "/etc/designate" }
-    - { path: "/etc/designate/rootwrap.d" }
     - { path: "/etc/designate/rootwrap.d", owner: "root", group: "root" }
     - { path: "/etc/sudoers.d", mode: "0750", owner: "root", group: "root" }
     - { path: "{{ designate_system_user_home }}" }
