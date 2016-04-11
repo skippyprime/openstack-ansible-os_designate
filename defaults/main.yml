@@ -17,8 +17,6 @@
 debug: False
 verbose: True
 
-## APT Cache options
-cache_timeout: 600
 
 # These variables are used in 'developer mode' in order to allow the role
 # to build an environment directly from a git source without the presence
@@ -112,10 +110,6 @@ designate_service_internaluri: "{{ designate_service_proto }}://{{ internal_lb_v
 designate_service_adminuri: "{{ designate_service_proto }}://{{ internal_lb_vip_address }}:{{ designate_service_port }}"
 
 designate_service_in_ldap: false
-
-# Common apt packages
-designate_apt_packages:
-  - bind9
 
 # designate packages that must be installed before anything else
 designate_requires_pip_packages:
