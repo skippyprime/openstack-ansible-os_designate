@@ -1,0 +1,38 @@
+---
+# Copyright 2015, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Playbook for functional testing of designate
+  hosts: designate_all[0]
+  user: root
+  gather_facts: false
+  tasks:
+    - name: Check the designate API
+      uri:
+        url: "http://localhost:9001"
+        status_code: 200
+    - name: Create test domain
+      shell: |
+        . /root/openrc
+        {{ designate_venv_bin }}/designate domain-create --name designate-example.com. --email designate@example.org
+    - name: Verify domain gets created
+      shell: |
+        . /root/openrc
+        {{ designate_venv_bin }}/designate domain-get designate-example.com.
+      register: domain_status
+      until: domain_status|success
+      retries: 5
+      delay: 5
+  vars_files:
+    - test-vars.yml

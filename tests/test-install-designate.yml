@@ -81,7 +81,35 @@
         - "localhost"
         - "%"
       delegate_to: "10.100.100.101"
+    - name: Install bind9
+      apt:
+        package: bind9
+        state: present
+    - name: Drop bind configuration
+      copy:
+        src: named.conf.options
+        dest: /etc/bind/named.conf.options
+    - name: Restart bind9
+      service:
+        name: bind9
+        state: restarted
   roles:
     - role: "{{ rolename | basename }}"
+  vars_files:
+    - test-vars.yml
+
+- name: Import pools
+  hosts: designate_all[0]
+  user: root
+  gather_facts: true
+  tasks:
+    - name: Copy sample pools.yaml file
+      copy:
+        src: pools.yaml.sample
+        dest: /etc/designate/pools.yaml
+    - name: Import sample pools.yaml file
+      shell: |
+        . /root/openrc
+        {{ designate_venv_bin }}/designate-manage pool update --file /etc/designate/pools.yaml
   vars_files:
     - test-vars.yml

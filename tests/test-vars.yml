@@ -68,3 +68,4 @@ designate_pool_manager_container_mysql_password: "SuperSecrete"
 designate_rabbitmq_password: "secrete"
 designate_rabbitmq_userid: designate
 designate_rabbitmq_vhost: /designate
+designate_venv_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"

@@ -31,3 +31,6 @@
 # Install Designate
 - include: test-install-designate.yml
 
+# Test Designate
+- include: test-designate-functional.yml
+
