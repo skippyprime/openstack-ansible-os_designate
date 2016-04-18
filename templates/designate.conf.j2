@@ -322,28 +322,6 @@ connection = mysql+pymysql://{{ designate_pool_manager_galera_user }}:{{ designa
 #memcached_servers = None
 #expiration = 3600
 
-#####################
-## Pool Configuration
-#####################
-
-# This section does not have the defaults filled in but demonstrates an
-# example pool / server set up. Different backends will have different options.
-
-[pool:{{ designate_pool_uuid }}]
-nameservers = {{ designate_pool_nameserver_uuid }}
-targets = {{ designate_pool_target_uuid }}
-#also_notifies = 192.0.2.1:53, 192.0.2.2:53
-
-[pool_nameserver:{{ designate_pool_nameserver_uuid }}]
-port = 53
-host = 127.0.0.1
-
-[pool_target:{{ designate_pool_target_uuid }}]
-options = port: 53, host: 127.0.0.1
-masters = 127.0.0.1:5354
-type = bind9
-
-
 ##############
 ## Network API
 ##############
