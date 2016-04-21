@@ -73,8 +73,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items:
-    - "{{ designate_requires_pip_packages }}"
+  with_items: "{{ designate_requires_pip_packages }}"
   tags:
     - designate-install
     - designate-pip-packages
@@ -192,7 +191,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: designate_pip_packages
+  with_items: "{{ designate_pip_packages }}"
   when:
     - designate_venv_enabled | bool
     - designate_get_venv | failed or designate_developer_mode | bool
@@ -212,8 +211,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items:
-    - "{{ designate_pip_packages }}"
+  with_items: "{{ designate_pip_packages }}"
   when:
     - not designate_venv_enabled | bool
     - not designate_developer_mode | bool
