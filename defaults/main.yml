@@ -15,7 +15,6 @@
 
 ## Verbosity Options
 debug: False
-verbose: True
 
 
 # These variables are used in 'developer mode' in order to allow the role
