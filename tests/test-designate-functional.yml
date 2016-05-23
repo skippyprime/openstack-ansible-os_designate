@@ -14,25 +14,15 @@
 # limitations under the License.
 
 - name: Playbook for functional testing of designate
-  hosts: designate_all[0]
+  hosts: designate_all
   user: root
   gather_facts: false
   tasks:
-    - name: Check the designate API
-      uri:
-        url: "http://localhost:9001"
-        status_code: 200
-    - name: Create test domain
+    - name: Run tempest
       shell: |
-        . /root/openrc
-        {{ designate_venv_bin }}/designate domain-create --name designate-example.com. --email designate@example.org
-    - name: Verify domain gets created
-      shell: |
-        . /root/openrc
-        {{ designate_venv_bin }}/designate domain-get designate-example.com.
-      register: domain_status
-      until: domain_status|success
-      retries: 5
-      delay: 5
+        . {{ tempest_venv_bin }}/activate
+        {{ tempest_venv_bin | dirname }}/run_tempest.sh --no-virtual-env ${RUN_TEMPEST_OPTS} designate_tempest_plugin.tests.scenario.v2.test_zones
+      environment:
+        RUN_TEMPEST_OPTS: "--serial"
   vars_files:
     - test-vars.yml
