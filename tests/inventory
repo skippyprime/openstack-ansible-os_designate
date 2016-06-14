@@ -15,6 +15,7 @@ designate_api
 designate_central
 designate_mdns
 designate_pool_manager
+designate_zone_manager
 designate_sink
 
 [designate_api]
@@ -27,6 +28,9 @@ openstack1
 openstack1
 
 [designate_pool_manager]
+openstack1
+
+[designate_zone_manager]
 openstack1
 
 [designate_sink]

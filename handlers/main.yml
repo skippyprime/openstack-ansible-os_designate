@@ -30,6 +30,12 @@
     state: "restarted"
     pattern: "{{ designate_pool_manager_program_name }}"
 
+- name: Restart designate zone-manager
+  service:
+    name: "{{ designate_zone_manager_program_name }}"
+    state: "restarted"
+    pattern: "{{ designate_zone_manager_program_name }}"
+
 - name: Restart designate mdns
   service:
     name: "{{ designate_mdns_program_name }}"

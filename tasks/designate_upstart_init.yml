@@ -48,6 +48,17 @@
 
 - include: designate_upstart_common_init.yml
   vars:
+    program_name: "{{ designate_zone_manager_program_name }}"
+    service_name: "{{ designate_service_name }}"
+    system_user: "{{ designate_system_user_name }}"
+    system_group: "{{ designate_system_group_name }}"
+    service_home: "{{ designate_system_user_home }}"
+  when: inventory_hostname in groups['designate_zone_manager']
+  tags:
+    - designate-zone-manager-init
+
+- include: designate_upstart_common_init.yml
+  vars:
     program_name: "{{ designate_mdns_program_name }}"
     service_name: "{{ designate_service_name }}"
     system_user: "{{ designate_system_user_name }}"

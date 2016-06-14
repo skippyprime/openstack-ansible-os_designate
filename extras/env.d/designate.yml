@@ -26,6 +26,9 @@ component_skel:
   designate_pool_manager:
     belongs_to:
       - designate_all
+  designate_zone_manager:
+    belongs_to:
+      - designate_all
   designate_sink:
     belongs_to:
       - designate_all
@@ -39,6 +42,7 @@ container_skel:
       - designate_central
       - designate_mdns
       - designate_pool_manager
+      - designate_zone_manager
       - designate_sink
     properties:
       service_name: designate

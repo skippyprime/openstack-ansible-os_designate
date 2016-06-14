@@ -9,6 +9,7 @@ This role will install the following Upstart services:
     * designate-api
     * designate-central
     * designate-pool-manager
+    * designate-zone-manager
     * designate-mdns
     * designate-sink
 
