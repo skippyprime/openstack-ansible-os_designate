@@ -110,6 +110,6 @@
     - name: Import sample pools.yaml file
       shell: |
         . /root/openrc
-        {{ designate_venv_bin }}/designate-manage pool update --file /etc/designate/pools.yaml
+        {{ designate_bin }}/designate-manage pool update --file /etc/designate/pools.yaml
   vars_files:
     - test-vars.yml
