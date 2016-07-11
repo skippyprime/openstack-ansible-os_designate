@@ -23,11 +23,22 @@
     - "{{ ansible_os_family | lower }}.yml"
   tags:
     - always
+- name: Check init system
+  command: cat /proc/1/comm
+  register: _pid1_name
+  tags:
+    - always
+
+- name: Set the name of pid1
+  set_fact:
+    pid1_name: "{{ _pid1_name.stdout }}"
+  tags:
+    - always
 
 - include: designate_pre_install.yml
 - include: designate_install.yml
 - include: designate_post_install.yml
-- include: designate_upstart_init.yml
+- include: designate_init.yml
 
 - include: designate_db_setup.yml
   when: >

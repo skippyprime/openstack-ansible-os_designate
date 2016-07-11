@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_api_program_name }}"
     service_name: "{{ designate_service_name }}"
@@ -24,7 +24,7 @@
   tags:
     - designate-api-init
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_central_program_name }}"
     service_name: "{{ designate_service_name }}"
@@ -35,7 +35,7 @@
   tags:
     - designate-central-init
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_pool_manager_program_name }}"
     service_name: "{{ designate_service_name }}"
@@ -46,7 +46,7 @@
   tags:
     - designate-pool-manager-init
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_zone_manager_program_name }}"
     service_name: "{{ designate_service_name }}"
@@ -57,7 +57,7 @@
   tags:
     - designate-zone-manager-init
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_mdns_program_name }}"
     service_name: "{{ designate_service_name }}"
@@ -68,7 +68,7 @@
   tags:
     - designate-mdns-init
 
-- include: designate_upstart_common_init.yml
+- include: designate_init_common.yml
   vars:
     program_name: "{{ designate_sink_program_name }}"
     service_name: "{{ designate_service_name }}"
