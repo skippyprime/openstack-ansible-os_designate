@@ -18,8 +18,6 @@
     name: "{{ designate_system_group_name }}"
     state: "present"
     system: "yes"
-  tags:
-    - designate-group
 
 - name: Create the designate system user
   user:
@@ -30,8 +28,6 @@
     system: "yes"
     createhome: "yes"
     home: "{{ designate_system_user_home }}"
-  tags:
-    - designate-user
 
 - name: Create designate dir
   file:
@@ -47,8 +43,6 @@
     - { path: "{{ designate_system_user_home }}" }
     - { path: "{{ designate_system_user_home }}/.ssh", mode: "0700" }
     - { path: "/var/cache/designate", mode: "0700" }
-  tags:
-    - designate-dirs
 
 - name: Test for log directory or link
   shell: |
@@ -61,9 +55,6 @@
   register: log_dir
   failed_when: false
   changed_when: log_dir.rc != 0
-  tags:
-    - designate-dirs
-    - designate-logs
 
 - name: Create designate log dir
   file:
@@ -73,9 +64,6 @@
     group: "{{ designate_system_group_name }}"
     mode: "0755"
   when: log_dir.rc != 0
-  tags:
-    - designate-dirs
-    - designate-logs
 
 - name: Drop sudoers file
   template:
@@ -84,6 +72,3 @@
     mode: "0440"
     owner: "root"
     group: "root"
-  tags:
-    - sudoers
-    - designate-sudoers

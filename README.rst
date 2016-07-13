@@ -5,7 +5,7 @@ OpenStack-Ansible Designate
 
 This Ansible role installs and configures OpenStack Designate.
 
-This role will install the following Upstart services:
+This role will install the following services:
     * designate-api
     * designate-central
     * designate-pool-manager
@@ -50,3 +50,12 @@ Example Playbook
         designate_service_password: "SuperSecretePassword3"
         designate_rabbitmq_password: "SuperSecretePassword4"
 
+Tags
+====
+
+This role supports two tags: ``designate-install`` and ``designate-config``
+
+The ``designate-install`` tag can be used to install and upgrade.
+
+The ``designate-config`` tag can be used to maintain configuration of the
+service.
