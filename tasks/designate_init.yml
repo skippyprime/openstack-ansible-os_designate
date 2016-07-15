@@ -21,8 +21,6 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_api']
-  tags:
-    - designate-api-init
 
 - include: designate_init_common.yml
   vars:
@@ -32,8 +30,6 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_central']
-  tags:
-    - designate-central-init
 
 - include: designate_init_common.yml
   vars:
@@ -43,8 +39,6 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_pool_manager']
-  tags:
-    - designate-pool-manager-init
 
 - include: designate_init_common.yml
   vars:
@@ -54,8 +48,6 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_zone_manager']
-  tags:
-    - designate-zone-manager-init
 
 - include: designate_init_common.yml
   vars:
@@ -65,8 +57,6 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_mdns']
-  tags:
-    - designate-mdns-init
 
 - include: designate_init_common.yml
   vars:
@@ -76,7 +66,5 @@
     system_group: "{{ designate_system_group_name }}"
     service_home: "{{ designate_system_user_home }}"
   when: inventory_hostname in groups['designate_sink']
-  tags:
-    - designate-sink-init
 
 

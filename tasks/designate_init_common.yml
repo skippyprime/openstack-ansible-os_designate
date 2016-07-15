@@ -15,13 +15,9 @@
 
 - include: designate_init_upstart.yml
   when: pid1_name == "init"
-  tags:
-    - designate-init
 
 - include: designate_init_systemd.yml
   when: pid1_name == "systemd"
-  tags:
-    - designate-init
 
 - name: Load service
   service:

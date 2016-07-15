@@ -42,9 +42,6 @@
       config_overrides: "{{ designate_rootwrap_conf_overrides }}"
       config_type: "ini"
   notify: Restart designate services
-  tags:
-    - designate-config
-    - designate-post-install
 
 - name: Copy designate rootwrap filter config
   copy:
@@ -53,6 +50,3 @@
     owner: "root"
     group: "root"
   notify: Restart designate services
-  tags:
-    - designate-config
-    - designate-post-install

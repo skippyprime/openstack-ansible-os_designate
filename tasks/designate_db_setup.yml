@@ -17,14 +17,8 @@
   command: "{{ designate_bin }}/designate-manage database sync"
   become: yes
   become_user: "{{ designate_system_user_name }}"
-  tags:
-    - designate-db-sync
-    - designate-setup
 
 - name: Perform a Designate Pool Manager Cache sync
   command: "{{ designate_bin }}/designate-manage pool-manager-cache sync"
   become: yes
   become_user: "{{ designate_system_user_name }}"
-  tags:
-    - designate-db-sync
-    - designate-setup
