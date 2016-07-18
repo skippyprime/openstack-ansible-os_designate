@@ -58,6 +58,9 @@ designate_pool_manager_galera_database: designate_pool_manager
 ## RabbitMQ info
 designate_rabbitmq_userid: designate
 designate_rabbitmq_vhost: /designate
+designate_rabbitmq_servers: 127.0.0.1
+designate_rabbitmq_use_ssl: False
+designate_rabbitmq_port: 5672
 
 ## Pool Configuration Defaults
 # These are typically set in the user_secrets.yml file.
