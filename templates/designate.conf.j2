@@ -29,12 +29,12 @@ root_helper = sudo designate-rootwrap /etc/designate/rootwrap.conf
 # RabbitMQ Config
 [oslo_messaging_rabbit]
 rpc_backend = rabbit
-rabbit_port = {{ rabbitmq_port }}
+rabbit_port = {{ designate_rabbitmq_port }}
 rabbit_userid = {{ designate_rabbitmq_userid }}
 rabbit_password = {{ designate_rabbitmq_password }}
 rabbit_virtual_host = {{ designate_rabbitmq_vhost }}
-rabbit_hosts = {{ rabbitmq_servers }}
-rabbit_use_ssl = {{ rabbitmq_use_ssl }}
+rabbit_hosts = {{ designate_rabbitmq_servers }}
+rabbit_use_ssl = {{ designate_rabbitmq_use_ssl }}
 rabbit_notification_exchange = designate
 rabbit_notification_topic = notifications
 
