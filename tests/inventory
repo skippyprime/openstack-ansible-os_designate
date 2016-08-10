@@ -1,5 +1,5 @@
 [all]
-localhost ansible_connection=local ansible_become=True
+localhost ansible_become=True
 infra1 ansible_host=10.100.100.101 ansible_become=True
 openstack1 ansible_host=10.100.100.102 ansible_become=True
 
@@ -39,12 +39,19 @@ openstack1
 [keystone_all]
 openstack1
 
+[utility_all]
+openstack1
+
 [service_all:children]
 rabbitmq_all
 galera_all
+memcached_all
 
 [rabbitmq_all]
 infra1
 
 [galera_all]
+infra1
+
+[memcached_all]
 infra1
