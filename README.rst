@@ -1,61 +1,11 @@
-OpenStack-Ansible Designate
-###########################
-:tags: openstack, designate, cloud, ansible
-:category: \*nix
+====================================
+Designate role for OpenStack-Ansible
+====================================
 
-This Ansible role installs and configures OpenStack Designate.
+Ansible role to install OpenStack designate.
 
-This role will install the following services:
-    * designate-api
-    * designate-central
-    * designate-pool-manager
-    * designate-zone-manager
-    * designate-mdns
-    * designate-sink
+Documentation for the project can be found at:
+  http://docs.openstack.org/developer/openstack-ansible-os_designate
 
-Default Variables
-=================
-
-.. literalinclude:: ../../defaults/main.yml
-   :language: yaml
-   :start-after: under the License.
-
-Required Variables
-==================
-
-.. code-block:: yaml
-
-    designate_galera_address
-    designate_container_mysql_password
-    designate_pool_manager_container_mysql_password
-    designate_service_password
-    designate_rabbitmq_password
-
-Example Playbook
-================
-
-.. code-block:: yaml
-
-    - name: Install Designate Server
-      hosts: designate_all
-      user: root
-      roles:
-        - { role: "os_designate", tags: [ "os-designate" ] }
-      vars:
-        external_lb_vip_address: 172.16.24.1
-        internal_lb_vip_address: 192.168.0.1
-        designate_galera_address: "{{ internal_lb_vip_address }}"
-        designate_container_mysql_password: "SuperSecretePassword1"
-        designate_pool_manager_container_mysql_password: "SuperSecretePassword2"
-        designate_service_password: "SuperSecretePassword3"
-        designate_rabbitmq_password: "SuperSecretePassword4"
-
-Tags
-====
-
-This role supports two tags: ``designate-install`` and ``designate-config``
-
-The ``designate-install`` tag can be used to install and upgrade.
-
-The ``designate-config`` tag can be used to maintain configuration of the
-service.
+The project home is at:
+  http://launchpad.net/openstack-ansible
