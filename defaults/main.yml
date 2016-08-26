@@ -20,14 +20,20 @@ debug: False
 # Options are 'present' and 'latest'
 designate_package_state: "latest"
 
-# These variables are used in 'developer mode' in order to allow the role
-# to build an environment directly from a git source without the presence
-# of an OpenStack-Ansible repo_server.
+## The git source/branch
 designate_git_repo: https://git.openstack.org/openstack/designate
 designate_git_install_branch: master
+
+# Developer mode is used for role functional testing and allows the role
+# to build an environment directly from a git source without the presence
+# of an OpenStack-Ansible repo_server.
+designate_developer_mode: False
+
+## The git source/branch for the upper-constraints (used in developer mode)
 designate_requirements_git_repo: https://git.openstack.org/openstack/requirements
 designate_requirements_git_install_branch: master
-designate_developer_mode: false
+
+## The packages to build from source (used in developer mode)
 designate_developer_constraints:
   - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
 
@@ -41,6 +47,7 @@ designate_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
 #  designate_etc_dir: "/usr/local/etc/designate"
 designate_etc_dir: "{{ designate_bin | dirname }}/etc/designate"
 
+# URL of the pre-built virtualenv
 designate_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/designate.tgz
 
 ## System info
@@ -66,7 +73,6 @@ designate_rabbitmq_use_ssl: False
 designate_rabbitmq_port: 5672
 
 ## Pool Configuration Defaults
-# These are typically set in the user_secrets.yml file.
 designate_pool_uuid: 794ccc2c-d751-44fe-b57f-8894c9f5c842
 designate_pool_nameserver_uuid: f02a0c72-c701-4ec2-85d7-197b30992ce8
 designate_pool_target_uuid: f02a0c72-c701-4ec2-85d7-197b30992ce9
@@ -74,11 +80,11 @@ designate_pool_target_uuid: f02a0c72-c701-4ec2-85d7-197b30992ce9
 # Enable/Disable Ceilometer
 designate_ceilometer_enabled: False
 
-# Designate API's enabled
-designate_enable_v1_api: true
-designate_enable_v2_api: true
+# Designate APIs enabled
+designate_enable_v1_api: True
+designate_enable_v2_api: True
 
-#Designate services info
+# Designate services info
 designate_role_name: admin
 
 designate_central_program_name: designate-central
@@ -105,13 +111,13 @@ designate_service_publicuri: "{{ designate_service_proto }}://{{ external_lb_vip
 designate_service_internaluri: "{{ designate_service_proto }}://{{ internal_lb_vip_address }}:{{ designate_service_port }}"
 designate_service_adminuri: "{{ designate_service_proto }}://{{ internal_lb_vip_address }}:{{ designate_service_port }}"
 
-designate_service_in_ldap: false
+designate_service_in_ldap: False
 
 # designate packages that must be installed before anything else
 designate_requires_pip_packages:
   - virtualenv
   - virtualenv-tools
-  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
+  - python-keystoneclient # Keystoneclient needed by OSA keystone lib
   - httplib2
 
 # Common pip packages
@@ -125,12 +131,12 @@ designate_pip_packages:
 
 ## Service Names
 designate_service_names:
-  - "designate-api"
-  - "designate-central"
-  - "designate-pool-manager"
-  - "designate-zone-manager"
-  - "designate-mdns"
-  - "designate-sink"
+  - "{{ designate_api_program_name }}"
+  - "{{ designate_central_program_name }}"
+  - "{{ designate_pool_manager_program_name }}"
+  - "{{ designate_zone_manager_program_name }}"
+  - "{{ designate_mdns_program_name }}"
+  - "{{ designate_sink_program_name }}"
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the
