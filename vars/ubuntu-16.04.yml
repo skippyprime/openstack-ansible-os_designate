@@ -16,4 +16,4 @@
 cache_timeout: 600
 
 # Common apt packages
-designate_apt_packages: []
+designate_distro_packages: []
