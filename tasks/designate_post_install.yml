@@ -43,10 +43,12 @@
       config_type: "ini"
   notify: Restart designate services
 
-- name: Copy designate rootwrap filter config
+- name: Copy rootwrap filters
   copy:
-    src: "rootwrap.d/bind9.filters"
-    dest: "/etc/designate/rootwrap.d/bind9.filters"
+    src: "{{ item }}"
+    dest: "/etc/designate/rootwrap.d/"
     owner: "root"
     group: "root"
+  with_fileglob:
+    - rootwrap.d/*
   notify: Restart designate services
