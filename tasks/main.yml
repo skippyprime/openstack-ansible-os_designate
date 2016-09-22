@@ -53,18 +53,17 @@
     - designate-install
 
 - include: designate_db_setup.yml
-  when: >
-    inventory_hostname == groups['designate_all'][0]
+  static: no
+  when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
 
 - include: designate_service_setup.yml
-  when: >
-    inventory_hostname == groups['designate_all'][0]
+  static: no
+  when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
 
 - name: Flush handlers
   meta: flush_handlers
-
 
