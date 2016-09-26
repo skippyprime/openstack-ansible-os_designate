@@ -53,13 +53,11 @@
     - designate-install
 
 - include: designate_db_setup.yml
-  static: no
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
 
 - include: designate_service_setup.yml
-  static: no
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
