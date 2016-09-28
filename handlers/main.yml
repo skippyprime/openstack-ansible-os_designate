@@ -1,4 +1,6 @@
+---
 # Copyright 2016, Tata Consultancy Services
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,47 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Restart designate api
-  service:
-    name: "{{ designate_api_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_api_program_name }}"
+- name: Reload systemd daemon
+  command: "systemctl daemon-reload"
+  notify:
+    - Restart designate services
 
-- name: Restart designate central
-  service:
-    name: "{{ designate_central_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_central_program_name }}"
-
-- name: Restart designate pool-manager
-  service:
-    name: "{{ designate_pool_manager_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_pool_manager_program_name }}"
-
-- name: Restart designate zone-manager
-  service:
-    name: "{{ designate_zone_manager_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_zone_manager_program_name }}"
-
-- name: Restart designate mdns
-  service:
-    name: "{{ designate_mdns_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_mdns_program_name }}"
-
-- name: Restart designate sink
-  service:
-    name: "{{ designate_sink_program_name }}"
-    state: "restarted"
-    pattern: "{{ designate_sink_program_name }}"
+- name: Reload upstart init scripts
+  shell: |
+    initctl reload-configuration
+  notify:
+    - Restart designate services
 
 - name: Restart designate services
   service:
-    name: "{{ item }}"
+    name: "{{ item.value.service_name }}"
     state: "restarted"
-    pattern: "{{ item }}"
-  with_items: "{{ designate_service_names }}"
-  failed_when: false
-
+    pattern: "{{ item.value.service_name }}"
+  with_dict: "{{ designate_services }}"
+  when: inventory_hostname in groups[item.value.group]

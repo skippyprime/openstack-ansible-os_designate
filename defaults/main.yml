@@ -87,13 +87,6 @@ designate_enable_v2_api: True
 # Designate services info
 designate_role_name: admin
 
-designate_central_program_name: designate-central
-designate_pool_manager_program_name: designate-pool-manager
-designate_zone_manager_program_name: designate-zone-manager
-designate_mdns_program_name: designate-mdns
-designate_sink_program_name: designate-sink
-designate_api_program_name: designate-api
-
 ## Service Type and Data
 designate_service_region: RegionOne
 designate_service_endpoint_type: internalURL
@@ -129,14 +122,26 @@ designate_pip_packages:
   - pycrypto
   - warlock
 
-## Service Names
-designate_service_names:
-  - "{{ designate_api_program_name }}"
-  - "{{ designate_central_program_name }}"
-  - "{{ designate_pool_manager_program_name }}"
-  - "{{ designate_zone_manager_program_name }}"
-  - "{{ designate_mdns_program_name }}"
-  - "{{ designate_sink_program_name }}"
+## Service Name-Group Mapping
+designate_services:
+  designate-central:
+    group: designate_central
+    service_name: designate-central
+  designate-pool-manager:
+    group: designate_pool_manager
+    service_name: designate-pool-manager
+  designate-zone-manager:
+    group: designate_zone_manager
+    service_name: designate-zone-manager
+  designate-mdns:
+    group: designate_mdns
+    service_name: designate-mdns
+  designate-sink:
+    group: designate_sink
+    service_name: designate-sink
+  designate-api:
+    group: designate_api
+    service_name: designate-api
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the

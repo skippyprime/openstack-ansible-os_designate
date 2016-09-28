@@ -48,7 +48,7 @@
     - designate-install
     - designate-config
 
-- include: designate_init.yml
+- include: designate_init_common.yml
   tags:
     - designate-install
 
