@@ -24,4 +24,3 @@
         {{ tempest_venv_bin | dirname }}/run_tempest.sh --no-virtual-env --serial designate_tempest_plugin.tests.scenario.v2.test_zones
   vars_files:
     - common/test-vars.yml
-    - test-vars.yml

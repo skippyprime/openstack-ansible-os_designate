@@ -21,4 +21,3 @@
     - role: "os_tempest"
   vars_files:
     - common/test-vars.yml
-    - test-vars.yml
