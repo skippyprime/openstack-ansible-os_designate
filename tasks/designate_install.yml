@@ -85,7 +85,7 @@
     url: "{{ designate_venv_download_url }}"
     dest: "/var/cache/{{ designate_venv_download_url | basename }}"
     force: yes
-  ignore_errors: true
+  failed_when: false
   register: get_venv
   when:
     - not designate_developer_mode | bool
