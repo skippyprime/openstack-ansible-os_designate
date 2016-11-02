@@ -29,10 +29,6 @@ designate_git_install_branch: master
 # of an OpenStack-Ansible repo_server.
 designate_developer_mode: False
 
-## The git source/branch for the upper-constraints (used in developer mode)
-designate_requirements_git_repo: https://git.openstack.org/openstack/requirements
-designate_requirements_git_install_branch: master
-
 ## The packages to build from source (used in developer mode)
 designate_developer_constraints:
   - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
