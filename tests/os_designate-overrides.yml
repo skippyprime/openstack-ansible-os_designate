@@ -22,11 +22,11 @@ designate_service_password: "secrete"
 designate_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] }}"
 designate_galera_database: designate
 designate_galera_user: designate
-designate_container_mysql_password: "SuperSecrete"
+designate_galera_password: "SuperSecrete"
 designate_pool_manager_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] }}"
 designate_pool_manager_galera_database: designate_pool_manager
 designate_pool_manager_galera_user: designate_pool_manager
-designate_pool_manager_container_mysql_password: "SuperSecrete"
+designate_pool_manager_galera_password: "SuperSecrete"
 designate_rabbitmq_password: "secrete"
 designate_rabbitmq_userid: designate
 designate_rabbitmq_vhost: /designate

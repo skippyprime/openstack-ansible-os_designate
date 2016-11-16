@@ -7,7 +7,7 @@
     external_lb_vip_address: 172.16.24.1
     internal_lb_vip_address: 192.168.0.1
     designate_galera_address: "{{ internal_lb_vip_address }}"
-    designate_container_mysql_password: "SuperSecretePassword1"
-    designate_pool_manager_container_mysql_password: "SuperSecretePassword2"
+    designate_galera_password: "SuperSecretePassword1"
+    designate_pool_manager_galera_password: "SuperSecretePassword2"
     designate_service_password: "SuperSecretePassword3"
     designate_rabbitmq_password: "SuperSecretePassword4"
