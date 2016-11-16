@@ -25,8 +25,8 @@ Required variables
 .. code-block:: yaml
 
     designate_galera_address
-    designate_container_mysql_password
-    designate_pool_manager_container_mysql_password
+    designate_galera_password
+    designate_pool_manager_galera_password
     designate_service_password
     designate_rabbitmq_password
 
