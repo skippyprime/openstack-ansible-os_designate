@@ -93,7 +93,7 @@
 
 - name: Update virtualenv path
   command: >
-    virtualenv-tools --update-path=auto {{ designate_bin | dirname }}
+    virtualenv-tools --update-path=auto --reinitialize {{ designate_bin | dirname }}
   when:
     - not designate_developer_mode | bool
     - designate_get_venv | changed or designate_venv_dir | changed
