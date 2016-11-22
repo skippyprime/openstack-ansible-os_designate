@@ -28,8 +28,5 @@
 # Install Designate
 - include: test-install-designate.yml
 
-# Install Tempest
-- include: test-install-tempest.yml
-
-# Test Designate
-- include: test-designate-functional.yml
+# Install and execute Tempest
+- include: common/test-install-tempest.yml
