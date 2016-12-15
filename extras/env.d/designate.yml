@@ -46,7 +46,7 @@ container_skel:
       - designate_sink
     properties:
       service_name: designate
-      container_release: trusty
+      container_release: xenial
 
 physical_skel:
   dnsaas_containers:

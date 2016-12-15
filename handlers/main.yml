@@ -19,15 +19,9 @@
   notify:
     - Restart designate services
 
-- name: Reload upstart init scripts
-  command: initctl reload-configuration
-  notify:
-    - Restart designate services
-
 - name: Restart designate services
   service:
     name: "{{ item.value.service_name }}"
     state: "restarted"
-    pattern: "{{ item.value.service_name }}"
   with_dict: "{{ designate_services }}"
   when: inventory_hostname in groups[item.value.group]
