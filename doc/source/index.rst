@@ -12,6 +12,9 @@ This role will install the following services:
     * designate-mdns
     * designate-sink
 
+To clone or view the source code for this repository, visit the role repository
+for `os_designate <https://github.com/openstack/openstack-ansible-os_designate>`_.
+
 Default variables
 ~~~~~~~~~~~~~~~~~
 
