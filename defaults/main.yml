@@ -152,3 +152,11 @@ designate_designate_conf_overrides: {}
 designate_api_paste_ini_overrides: {}
 designate_rootwrap_conf_overrides: {}
 
+
+# Older versions of ansible have trouble with local var includes apparently
+# and we are rolling back to ansible 1.9
+# APT Cache options
+cache_timeout: 600
+
+# Common apt packages
+designate_distro_packages: []

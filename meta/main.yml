@@ -18,11 +18,11 @@ galaxy_info:
   description: Installation and setup of Designate
   company: OpenStack
   license: Apache2
-  min_ansible_version: 2.0
+  min_ansible_version: 1.6.6
   platforms:
     - name: Ubuntu
       versions:
-        - xenial
+        - trusty
   categories:
     - cloud
     - python
