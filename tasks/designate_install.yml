@@ -37,7 +37,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: {{ designate_requires_pip_packages }}
+  with_items: "{{ designate_requires_pip_packages }}"
 
 - name: Attempt venv download
   get_url:
@@ -89,7 +89,7 @@
   retries: 5
   delay: 2
   when: designate_developer_mode | bool
-  with_items: {{ designate_pip_packages }}
+  with_items: "{{ designate_pip_packages }}"
   notify:
     - Restart designate services
 
